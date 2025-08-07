@@ -1,9 +1,11 @@
 'use strict';
 
-describe('ifElse', () => {
-  const { ifElse } = require('./ifElse');
+const { ifElse } = require('./ifElse');
 
-  let condition, first, second;
+describe('ifElse', () => {
+  let condition;
+  let first;
+  let second;
 
   beforeEach(() => {
     condition = jest.fn();
@@ -17,27 +19,32 @@ describe('ifElse', () => {
     expect(result).toBeUndefined();
   });
 
-  it('evaluates the condition exactly once', () => {
+  it('evaluates the condition exactly once and with no arguments', () => {
     ifElse(condition, first, second);
 
     expect(condition).toHaveBeenCalledTimes(1);
+    expect(condition).toHaveBeenCalledWith();
   });
 
-  it('executes the "first" callback when condition returns true', () => {
-    const trueCondition = jest.fn().mockReturnValue(true);
+  // eslint-disable-next-line max-len
+  it('executes the "first" callback when condition returns true (with no args)', () => {
+    condition.mockReturnValue(true);
 
-    ifElse(trueCondition, first, second);
+    ifElse(condition, first, second);
 
     expect(first).toHaveBeenCalledTimes(1);
+    expect(first).toHaveBeenCalledWith();
     expect(second).not.toHaveBeenCalled();
   });
 
-  it('executes the "second" callback when condition returns false', () => {
-    const falseCondition = jest.fn().mockReturnValue(false);
+  // eslint-disable-next-line max-len
+  it('executes the "second" callback when condition returns false (with no args)', () => {
+    condition.mockReturnValue(false);
 
-    ifElse(falseCondition, first, second);
+    ifElse(condition, first, second);
 
     expect(second).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledWith();
     expect(first).not.toHaveBeenCalled();
   });
 });
